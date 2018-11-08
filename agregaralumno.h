@@ -2,6 +2,8 @@
 #define AGREGARALUMNO_H
 
 #include <QDialog>
+#include <QDebug>
+
 
 namespace Ui {
 class AgregarAlumno;
@@ -15,7 +17,18 @@ public:
     explicit AgregarAlumno(QWidget *parent = 0);
     ~AgregarAlumno();
 
+
+    void obtenerValores(QString &nombre,QString &apellido);
+
+    QString getNombre();
+    QString getApellido();
+
+
+private slots:
+    void on_buttonBoxAgregarAlumno_accepted();
+
 private:
+
     Ui::AgregarAlumno *ui;
 };
 
