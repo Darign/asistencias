@@ -68,9 +68,10 @@ void GestionAlumnos::mostrarDatos()
         qDebug()<<"ERROR" << consultar.lastError();
     }
 
-    int fila = 0;
+    int fila = 0;  
 
-    //ui->tableWidgetDatos->setRowCount(0);
+    //limpia la tabla
+    ui->tableWidgetDatos->setRowCount(0);
 
     while(consultar.next()){
 
@@ -168,40 +169,11 @@ void GestionAlumnos::actualizarAlumno(int id, QString nombre, QString apellido)
 void GestionAlumnos::obtenerCampo(QString &_apellido, QString &_nombres)
 {
 
-    //int id_alumno = obtenerIdAlumno();
-
     //índice seleccionado de la tabla
     QModelIndex indice = ui->tableWidgetDatos->selectionModel()->currentIndex();
 
-
     _nombres = indice.sibling(ui->tableWidgetDatos->selectionModel()->currentIndex().row(),2).data().toString();
     _apellido = indice.sibling(ui->tableWidgetDatos->selectionModel()->currentIndex().row(),1).data().toString();
-
-
-
-     /*qDebug()<<"Imprime el nombre y apellido:" << _nombres + _apellido;
-*/
-
-
-/*
-
-    qDebug()<<"alumno es; " << ui->tableWidgetDatos->selectionModel()->currentIndex().sibling(
-              ui->tableWidgetDatos->selectionModel()->currentIndex().row(),0).data().value<int>();
-
-
-
-    QModelIndex indice = ui->tableWidgetDatos->selectionModel()->currentIndex();
-
-    int num_fila = indice.row();
-
-    int campo = ;
-    qDebug()<<"el número de fila es: " << num_fila;
-
-    int id_alumno = indice.sibling(ui->tableWidgetDatos->selectionModel()->currentIndex().row(),0).data().value<int>();
-
-    qDebug()<<"el id de alumno es; " << id_alumno;
-
-    return campo;*/
 
 }
 
@@ -268,4 +240,9 @@ void GestionAlumnos::on_pushButtonEditar_clicked()
 
     }
 
+}
+
+void GestionAlumnos::on_pushButtonVolver_clicked()
+{
+    this->close();
 }

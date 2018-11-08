@@ -9,7 +9,12 @@ ControlAsistencia::ControlAsistencia(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mostrarTabla();
+    QDateTime qdatetime;
+    qdatetime = QDateTime::currentDateTime();
+    filtro_fecha= qdatetime.toString("dd-MM-yyyy");
+    ui->dateEditFecha->setDate(qdatetime.date());
+
+    mostrarTabla(filtro_fecha);
 }
 
 ControlAsistencia::~ControlAsistencia()
@@ -17,14 +22,14 @@ ControlAsistencia::~ControlAsistencia()
     delete ui;
 }
 
-void ControlAsistencia::mostrarTabla()
+void ControlAsistencia::mostrarTabla(QString _filtro_fecha)
 {
     QString consulta;
     //|| ', ' || nombre //no se pudo concatenar
 
     consulta.append("SELECT alumnos.apellido,asistencias.fecha,asistencias.concepto "
                     "FROM alumnos "
-                    "INNER JOIN asistencias ON asistencias.fk_alumno = alumnos.id and asistencias.fecha = '08-11-2018'"
+                    "INNER JOIN asistencias ON asistencias.fk_alumno = alumnos.id and asistencias.fecha = '"+ _filtro_fecha +"'"
                     );
 
     QSqlQuery query;
@@ -32,9 +37,15 @@ void ControlAsistencia::mostrarTabla()
 
     int fila = 0;
 
+    //limpia la tabla
+    ui->tableWidgetAsistencia->setRowCount(0);
+
+
     if(query.exec())
     {
         while(query.next()){
+
+
 
             //ALUMNO, APELLIDO + NOMBRES
             QTableWidgetItem *columna1 = new QTableWidgetItem(query.value(0).toByteArray().constData());
@@ -45,7 +56,23 @@ void ControlAsistencia::mostrarTabla()
             //columna2->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);//activa la celda en modo solo lectura
 
             //ASISTENCIA
-            QTableWidgetItem *columna3 = new QTableWidgetItem(query.value(2).toByteArray().constData());
+            int concepto = query.value(2).toInt();
+            QString aux;
+
+            switch(concepto){
+            case 0 : aux = "ausente";
+                break;
+            case 1: aux = "presente";
+                break;
+            case 2: aux = "justificado";
+                break;
+            }
+
+
+            QTableWidgetItem *columna3 = new QTableWidgetItem(aux);
+
+            //QTableWidgetItem *columna3= new QTableWidgetItem(query.value(2).toByteArray().constData());
+
             //columna3->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);//activa la celda en modo solo lectura
 
 
@@ -76,3 +103,27 @@ void ControlAsistencia::mostrarTabla()
     return ui->lineEditAlumno
 }
 */
+
+void ControlAsistencia::on_pushButtonConsultar_clicked()
+{
+
+    filtro_fecha = ui->dateEditFecha->date().toString("dd-MM-yyyy");
+    mostrarTabla(filtro_fecha);
+
+    qDebug()<< "funciona el botón consultar";
+
+}
+
+void ControlAsistencia::on_pushButtonAtras_clicked()
+{
+
+
+    this->close();
+
+
+
+
+/*
+    tomarAsistencia = new dialogTomarAsistencia(this);
+    tomarAsistencia->show();*/
+}

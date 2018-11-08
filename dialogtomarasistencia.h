@@ -40,6 +40,8 @@ private slots:
 
     void on_pushButtonAtras_clicked();
 
+    void on_pushButtonSalir_clicked();
+
 private:
     Ui::dialogTomarAsistencia *ui;
     //dialogTomarAsistencia *tomarAsistencia;

@@ -69,7 +69,14 @@
      <item>
       <widget class="QPushButton" name="pushButtonAtras">
        <property name="text">
-        <string>Atrás</string>
+        <string>Anterior</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonSalir">
+       <property name="text">
+        <string>Volver al menú</string>
        </property>
       </widget>
      </item>

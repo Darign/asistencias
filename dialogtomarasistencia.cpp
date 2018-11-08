@@ -61,6 +61,8 @@ void dialogTomarAsistencia::guardarAsistencia()
 {
     QMessageBox mensaje;
 
+
+
     mensaje.setText("Guardar asistencias");
     mensaje.setInformativeText("¿Desea guardar?");
     //no funcionaron las opciones
@@ -72,8 +74,22 @@ void dialogTomarAsistencia::guardarAsistencia()
     if (resultado == QMessageBox::Save) {
 
         qDebug() << "SE GUARDÓ CORRECTAMENTE LA ASISTENCIA";
-
         QString fecha_actual = ui->lineEditFecha->text();
+
+        //limpia la tabla para que no se pueda tomar dos veces las asistencias en un día
+        QString limpiar = "DELETE FROM asistencias "
+                       "WHERE asistencias.fecha = '" + fecha_actual + "' ";
+
+        QSqlQuery query_limpiar;
+        query_limpiar.prepare(limpiar);
+
+        if(query_limpiar.exec()){
+            qDebug() << "Se limpió correctamente.";
+        }else{
+
+            qDebug() << "No se pudo limpiar la tabla: " + query_limpiar.lastError().text();
+        }
+
 
         for (int i = 0; i < listadoAlumnos.size();i++){
             Alumno aux = listadoAlumnos[i];
@@ -130,6 +146,7 @@ void dialogTomarAsistencia::asignarAsistencia(int num, int concepto)
 {
     Alumno aux = listadoAlumnos[num];
     aux.setConcepto(concepto);
+    listadoAlumnos[num] = aux;
 }
 
 void dialogTomarAsistencia::on_pushButtonPresente_clicked()
@@ -166,8 +183,13 @@ void dialogTomarAsistencia::on_pushButtonJustificada_clicked()
 
 void dialogTomarAsistencia::on_pushButtonAtras_clicked()
 {
-    if (contador >0) {
+    if (contador >0) {// evita que el array se pase a -1 cuando se hace click en "Atrás"
         contador --;
         mostrarAlumno(contador);
     }
+}
+
+void dialogTomarAsistencia::on_pushButtonSalir_clicked()
+{
+    this->close();
 }

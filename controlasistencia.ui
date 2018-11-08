@@ -51,7 +51,7 @@
     <item>
      <widget class="QPushButton" name="pushButtonAtras">
       <property name="text">
-       <string>Atrás</string>
+       <string>Volver al menú</string>
       </property>
      </widget>
     </item>

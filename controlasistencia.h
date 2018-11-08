@@ -6,6 +6,9 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <alumno.h>
+//#include <mainwindow.h>
+
+
 
 namespace Ui {
 class ControlAsistencia;
@@ -19,13 +22,19 @@ public:
     explicit ControlAsistencia(QWidget *parent = 0);
     ~ControlAsistencia();
 
-    void mostrarTabla();
+    void mostrarTabla(QString _filtro_fecha);
+
+private slots:
+    void on_pushButtonConsultar_clicked();
+
+    void on_pushButtonAtras_clicked();
 
 private:
     Ui::ControlAsistencia *ui;
 
     std::vector<Alumno> listadoAlumnos;
     int contador;
+    QString filtro_fecha;
 };
 
 #endif // CONTROLASISTENCIA_H

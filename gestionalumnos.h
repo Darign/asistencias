@@ -42,6 +42,8 @@ private slots:
 
     void on_pushButtonEditar_clicked();
 
+    void on_pushButtonVolver_clicked();
+
 private:
     Ui::GestionAlumnos *ui;
     AgregarAlumno *agregarAlumno;
