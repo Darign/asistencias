@@ -45,7 +45,7 @@ void dialogTomarAsistencia::obtenerAlumnos()
             alumno_aux.setApellido( query.value(1).toString() );
             alumno_aux.setNombres( query.value(2).toString() );
             alumno_aux.setConcepto(0);
-
+            //inserta un alumno
             listadoAlumnos.push_back(alumno_aux);
 
         }
@@ -60,8 +60,6 @@ void dialogTomarAsistencia::obtenerAlumnos()
 void dialogTomarAsistencia::guardarAsistencia()
 {
     QMessageBox mensaje;
-
-
 
     mensaje.setText("Guardar asistencias");
     mensaje.setInformativeText("¿Desea guardar?");

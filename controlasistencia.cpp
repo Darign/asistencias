@@ -45,8 +45,6 @@ void ControlAsistencia::mostrarTabla(QString _filtro_fecha)
     {
         while(query.next()){
 
-
-
             //ALUMNO, APELLIDO + NOMBRES
             QTableWidgetItem *columna1 = new QTableWidgetItem(query.value(0).toByteArray().constData());
             //columna1->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);//activa la celda en modo solo lectura
@@ -71,11 +69,6 @@ void ControlAsistencia::mostrarTabla(QString _filtro_fecha)
 
             QTableWidgetItem *columna3 = new QTableWidgetItem(aux);
 
-            //QTableWidgetItem *columna3= new QTableWidgetItem(query.value(2).toByteArray().constData());
-
-            //columna3->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);//activa la celda en modo solo lectura
-
-
             ui->tableWidgetAsistencia->insertRow(fila);
             //alumnos/apellido + nombres
             ui->tableWidgetAsistencia->setItem(fila,0,columna1);
@@ -96,14 +89,6 @@ void ControlAsistencia::mostrarTabla(QString _filtro_fecha)
     }
 }
 
-
-
-/*QString ControlAsistencia::getNombre()
-{
-    return ui->lineEditAlumno
-}
-*/
-
 void ControlAsistencia::on_pushButtonConsultar_clicked()
 {
 
@@ -116,14 +101,5 @@ void ControlAsistencia::on_pushButtonConsultar_clicked()
 
 void ControlAsistencia::on_pushButtonAtras_clicked()
 {
-
-
     this->close();
-
-
-
-
-/*
-    tomarAsistencia = new dialogTomarAsistencia(this);
-    tomarAsistencia->show();*/
 }

@@ -11,8 +11,6 @@ GestionAlumnos::GestionAlumnos(QWidget *parent) :
     ui->setupUi(this);
 
     mostrarDatos();
-
-
 }
 
 GestionAlumnos::~GestionAlumnos()
@@ -20,16 +18,17 @@ GestionAlumnos::~GestionAlumnos()
     delete ui;
 }
 
-void GestionAlumnos::insertarAlumno(QString nombre, QString apellido)
+void GestionAlumnos::insertarAlumno(Alumno alumno)
 {
     QString consulta;
 
+    //editado con objeto alumno + nombre + apellido
     consulta.append("INSERT INTO alumnos(apellido,nombres)"
                     "VALUES("
 
-                    "'"+ nombre +"',"
+                    "'"+ alumno.getNombres() +"',"
 
-                    "'"+ apellido +"'"
+                    "'"+ alumno.getApellido() +"'"
                     ");"
                     );
 
@@ -38,10 +37,7 @@ void GestionAlumnos::insertarAlumno(QString nombre, QString apellido)
 
     if (insertar.exec())
     {
-        qDebug()<<"Se agregó correctamente";
-
-       // ui->lineEditApellido->setText("");
-        //ui->lineEditNombres->setText("");
+        qDebug()<<"Se agregó correctamente";       
 
         qDebug()<<"el número de fila es: " << ui->tableWidgetDatos->selectionModel()->currentIndex().row(); //está devolviendo -1
         qDebug()<<"alumno es; " << ui->tableWidgetDatos->selectionModel()->currentIndex().sibling(
@@ -125,31 +121,40 @@ void GestionAlumnos::eliminarAlumno()
 
 int GestionAlumnos::obtenerIdAlumno()
 {
-    /*qDebug()<<"alumno es; " << ui->tableWidgetDatos->selectionModel()->currentIndex().sibling(
-              ui->tableWidgetDatos->selectionModel()->currentIndex().row(),0).data().value<int>();*/
 
-    QModelIndex indice = ui->tableWidgetDatos->selectionModel()->currentIndex();
-
-    //int num_fila = indice.row();
-    //qDebug()<<"el número de fila es: " << num_fila;
+    QModelIndex indice = ui->tableWidgetDatos->selectionModel()->currentIndex();   
 
     int id_alumno = indice.sibling(ui->tableWidgetDatos->selectionModel()->currentIndex().row(),0).data().value<int>();
 
-    //qDebug()<<"el id de alumno es; " << id_alumno;
-
     return id_alumno;
-
 
 }
 
+Alumno GestionAlumnos::obtenerAlumnoSeleccionado()
+{
+    Alumno alumno;
+    //índice seleccionado de la tabla
+    QModelIndex indice = ui->tableWidgetDatos->selectionModel()->currentIndex();
 
-void GestionAlumnos::actualizarAlumno(int id, QString nombre, QString apellido)
+    QString _nombres = indice.sibling(ui->tableWidgetDatos->selectionModel()->currentIndex().row(),2).data().toString();
+    QString _apellido = indice.sibling(ui->tableWidgetDatos->selectionModel()->currentIndex().row(),1).data().toString();
+    int _id = indice.sibling(ui->tableWidgetDatos->selectionModel()->currentIndex().row(),0).data().value<int>();
+
+    alumno.setNombres(_nombres);
+    alumno.setApellido(_apellido);
+    alumno.setId(_id);
+
+    return alumno;
+}
+
+
+void GestionAlumnos::actualizarAlumno(Alumno alumno)
 {
     QString consulta;
 
     consulta.append("UPDATE alumnos "
-                    "SET apellido ='" + apellido + "',nombres = '" + nombre +"'"
-                    " WHERE id = " + QString::number(id));
+                    "SET apellido ='" + alumno.getApellido() + "',nombres = '" + alumno.getNombres() +"'"
+                    " WHERE id = " + QString::number(alumno.getId()));
 
     QSqlQuery actualizar;
     actualizar.prepare(consulta);
@@ -181,19 +186,15 @@ void GestionAlumnos::on_pushButtonAgregar_clicked()
 {
     agregarAlumno = new AgregarAlumno(this); //Crea un diálogo
 
+    Alumno alumno;
+
     if(agregarAlumno->exec()){//se ejecuta después de cerrar la ventana
 
-        QString nombre, apellido;
 
-        //agregarAlumno->obtenerValores(nombre, apellido);
+        alumno.setNombres(agregarAlumno->getNombre());
+        alumno.setApellido(agregarAlumno->getApellido());
 
-
-        nombre = agregarAlumno->getNombre();
-        apellido = agregarAlumno->getApellido();
-
-
-
-        insertarAlumno(nombre, apellido);
+        insertarAlumno(alumno);
 
         mostrarDatos();
     }
@@ -209,32 +210,30 @@ void GestionAlumnos::on_pushButtonEliminar_clicked()
 
 void GestionAlumnos::on_pushButtonEditar_clicked()
 {
-    QString nombres, apellido;
-    int id;
 
-    obtenerCampo(apellido, nombres);
+    Alumno alumno;
 
-    id = obtenerIdAlumno();
+    alumno = obtenerAlumnoSeleccionado();
 
-    qDebug() << "el id seleccionado es: " <<id;
 
-    //agregarAlumno = new AgregarAlumno(apellido,nombres,this);
+    qDebug() << "el id seleccionado es: " <<alumno.getId();
 
-    //agregarAlumno->exec();
-
+    //diálogo editar alumno
     editarAlumno = new EditarAlumno(this);
 
-    editarAlumno->setNombre(nombres);
-    editarAlumno->setApellido(apellido);
+    //llena los campos de la ventana con los datos de la tabla
+    editarAlumno->setAlumno(alumno);
 
+
+    //si la ventana retorna verdadero
     if (editarAlumno->exec()){
 
-        QString nombre, apellido;
+        alumno = editarAlumno->getAlumno();
 
-        nombre = editarAlumno->getNombre();
-        apellido = editarAlumno->getApellido();
+        qDebug() << "el id seleccionado es: " <<alumno.getId();
+        qDebug() << "el nombre seleccionado es: " <<alumno.getNombres();
 
-        actualizarAlumno(id, nombre, apellido);
+        actualizarAlumno(alumno);
 
         mostrarDatos();
 

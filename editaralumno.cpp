@@ -36,12 +36,26 @@ void EditarAlumno::setApellido(QString apellido)
     ui->lineEditApellido->setText(apellido);
 }
 
+void EditarAlumno::setAlumno(Alumno alumno)
+{
 
-void EditarAlumno::obtenerValores(QString &nombre, QString &apellido){
-
-    //nombre = ui->lineEditApellido
-
+    setNombre(alumno.getNombres());
+    setApellido(alumno.getApellido());
+    id_alumno = alumno.getId();
 }
+
+Alumno EditarAlumno::getAlumno()
+{
+    Alumno aux;
+
+    aux.setId(id_alumno);
+    aux.setApellido(getApellido());
+    aux.setNombres(getNombre());
+
+    return aux;
+}
+
+
 
 
 void EditarAlumno::on_buttonBox_accepted()

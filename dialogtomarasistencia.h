@@ -30,7 +30,6 @@ public:
     bool mostrarAlumno(int num);
     void asignarAsistencia(int num, int concepto);
 
-
 private slots:
     void on_pushButtonPresente_clicked();
 
@@ -44,9 +43,8 @@ private slots:
 
 private:
     Ui::dialogTomarAsistencia *ui;
-    //dialogTomarAsistencia *tomarAsistencia;
 
-    std::vector<Alumno> listadoAlumnos; //array que guarda objetos
+    std::vector<Alumno> listadoAlumnos; //array que guarda objetos alumnos
     int contador;
 
 

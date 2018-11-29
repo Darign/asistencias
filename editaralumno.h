@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QDebug>
+#include <alumno.h>
 
 namespace Ui {
 class EditarAlumno;
@@ -16,10 +17,9 @@ public:
     explicit EditarAlumno(QWidget *parent = 0);
     ~EditarAlumno();
 
-    QString getNombre();
-    QString getApellido();
-    void setNombre(QString nombre);
-    void setApellido(QString apellido);
+
+    void setAlumno(Alumno alumno);
+    Alumno getAlumno();
 
     void obtenerValores(QString &nombre,QString &apellido);
 
@@ -28,6 +28,12 @@ private slots:
 
 private:
     Ui::EditarAlumno *ui;
+
+    QString getNombre();
+    QString getApellido();
+    void setNombre(QString nombre);
+    void setApellido(QString apellido);
+    int id_alumno;
 };
 
 #endif // EDITARALUMNO_H

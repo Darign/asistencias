@@ -6,11 +6,9 @@ AgregarAlumno::AgregarAlumno(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AgregarAlumno)
 {
-    // ui->lineEditApellido->setText(apellido);
-     //ui->lineEditNombres->setText(nombre);
 
     ui->setupUi(this);
-    //qDebug()<<alumno;
+
 }
 
 AgregarAlumno::~AgregarAlumno()

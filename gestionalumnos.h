@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include "agregaralumno.h"
 #include "editaralumno.h"
+#include <alumno.h>
 
 namespace Ui {
 class GestionAlumnos;
@@ -23,7 +24,7 @@ public:
 
     void crearTablaAlumnos();
 
-    void insertarAlumno(QString nombre, QString apellido);
+    void insertarAlumno(Alumno alumno);
 
     void mostrarDatos();
 
@@ -31,7 +32,9 @@ public:
 
     int obtenerIdAlumno();
 
-    void actualizarAlumno(int id, QString nombre, QString apellido);
+    Alumno obtenerAlumnoSeleccionado();
+
+    void actualizarAlumno(Alumno alumno);
 
     void obtenerCampo(QString &_apellido, QString &_nombres);
 
@@ -47,8 +50,8 @@ private slots:
 private:
     Ui::GestionAlumnos *ui;
     AgregarAlumno *agregarAlumno;
+    EditarAlumno *editarAlumno;    
 
-    EditarAlumno *editarAlumno;
 };
 
 #endif // GESTIONALUMNOS_H

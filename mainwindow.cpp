@@ -9,13 +9,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //este código se ejecuta cuando se inicializa la aplicación
-    //qDebug()<<"Se inició bien...";
-
     QString nombre;
     nombre.append("baseDatos.qlite");
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db. setDatabaseName("baseDatos.qlite");
+    db.setDatabaseName("baseDatos.qlite");
+
 
     if (db.open()) {qDebug()<<"Se ha conectado a la base de datos";
     }
@@ -92,8 +90,6 @@ void MainWindow::on_pushButtonAsistencia_clicked()
     tomarAsistencia->show();
 
 }
-
-
 
 void MainWindow::on_pushButtonVerAsistencia_clicked()
 {
